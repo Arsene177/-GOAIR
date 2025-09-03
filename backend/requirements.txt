@@ -1,0 +1,10 @@
+fastapi
+uvicorn[standard]
+sqlmodel
+python-jose[cryptography]
+passlib[bcrypt]
+pydantic
+aiohttp   # optional: for external flight API calls
+python-dotenv
+alembic   # when you need migrations
+APScheduler
