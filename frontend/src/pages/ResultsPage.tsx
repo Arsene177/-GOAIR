@@ -13,6 +13,7 @@ import { ArrowBack, FilterList } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import FlightCard from '../components/FlightCard';
 import PriceInsights from '../components/PriceInsights';
+import PricePrediction from '../components/PricePrediction';
 import OnboardingModal from '../components/OnboardingModal';
 import WeatherWidget from '../components/WeatherWidget';
 import { Flight, FlightSearch } from '../types';
@@ -163,6 +164,17 @@ const ResultsPage: React.FC = () => {
             arrival={searchParams.arrival}
             departureDate={searchParams.departureDate}
             onShowOnboarding={() => setShowOnboarding(true)}
+          />
+        )}
+
+        {/* Price Prediction */}
+        {searchParams && (
+          <PricePrediction
+            route={`${searchParams.departure} → ${searchParams.arrival}`}
+            departureDate={searchParams.departureDate}
+            currentPrice={flights.length > 0 ? flights[0].price : 500}
+            currency={flights.length > 0 ? flights[0].currency : 'EUR'}
+            onGetPrediction={() => console.log('Price prediction requested')}
           />
         )}
 

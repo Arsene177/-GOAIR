@@ -11,6 +11,8 @@ import RegisterPage from './pages/RegisterPage';
 import AdminPage from './pages/AdminPage';
 import AdminLoginPage from './pages/AdminLoginPage';
 import AdminSettingsPage from './pages/AdminSettingsPage';
+import NotificationPreferencesPage from './pages/NotificationPreferencesPage';
+import TestComponents from './components/TestComponents';
 
 function App() {
   return (
@@ -43,6 +45,8 @@ function App() {
                 <Route path="/results" element={<ResultsPage />} />
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/register" element={<RegisterPage />} />
+                <Route path="/notifications" element={<NotificationPreferencesPage />} />
+                <Route path="/test" element={<TestComponents />} />
                 <Route path="/admin/login" element={<AdminLoginPage />} />
                 <Route path="/admin" element={<AdminPage />} />
                 <Route path="/admin/settings" element={<AdminSettingsPage />} />

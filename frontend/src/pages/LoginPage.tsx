@@ -120,7 +120,7 @@ const LoginPage: React.FC = () => {
               Connexion
             </Typography>
             <Typography variant="body1" color="text.secondary">
-              Connectez-vous à votre compte Horizon
+              Connectez-vous à votre compte GOAIR
             </Typography>
           </Box>
 

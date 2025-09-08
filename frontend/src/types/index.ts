@@ -115,4 +115,71 @@ export interface AdminNotification {
   timestamp: string;
   isRead: boolean;
   priority: 'low' | 'medium' | 'high';
+}
+
+// Types pour les prédictions de prix
+export interface PricePrediction {
+  id: string;
+  route: string;
+  departureDate: string;
+  currentPrice: number;
+  predictedPrice: number;
+  confidence: number;
+  trend: 'up' | 'down' | 'stable';
+  factors: PriceFactor[];
+  recommendation: string;
+  lastUpdated: string;
+}
+
+export interface PriceFactor {
+  name: string;
+  impact: 'positive' | 'negative' | 'neutral';
+  weight: number;
+  description: string;
+}
+
+// Types pour les alertes de prix
+export interface PriceAlert {
+  id: string;
+  userId: string;
+  route: string;
+  departureDate: string;
+  targetPrice: number;
+  currentPrice: number;
+  isActive: boolean;
+  createdAt: string;
+  triggeredAt?: string;
+  notificationPreferences: NotificationPreferences;
+}
+
+// Types pour les préférences de notification
+export interface NotificationPreferences {
+  email: {
+    enabled: boolean;
+    address: string;
+    frequency: 'immediate' | 'daily' | 'weekly';
+    types: string[];
+  };
+  push: {
+    enabled: boolean;
+    frequency: 'immediate' | 'daily' | 'weekly';
+    types: string[];
+  };
+  sms: {
+    enabled: boolean;
+    number: string;
+    frequency: 'immediate' | 'daily' | 'weekly';
+    types: string[];
+  };
+}
+
+// Types pour l'historique des prix
+export interface PriceHistory {
+  id: string;
+  route: string;
+  date: string;
+  price: number;
+  currency: string;
+  source: string;
+  timestamp: string;
 } 

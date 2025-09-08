@@ -52,170 +52,170 @@ interface PriceFactor {
 
 const onboardingSteps: OnboardingStep[] = [
   {
-    title: 'Seasonal Variations',
-    description: 'Flight prices change significantly throughout the year based on travel seasons and holidays.',
+    title: 'Variations Saisonnières',
+    description: 'Les prix des vols changent considérablement tout au long de l\'année selon les saisons de voyage et les vacances.',
     icon: <SeasonIcon color="primary" sx={{ fontSize: 40 }} />,
     factors: [
       {
-        name: 'Peak Season',
-        description: 'Summer months, school holidays, and major holidays',
+        name: 'Haute Saison',
+        description: 'Mois d\'été, vacances scolaires et grandes fêtes',
         impact: 'high',
         trend: 'up',
-        example: 'Prices can be 2-3x higher during peak season'
+        example: 'Les prix peuvent être 2-3x plus élevés en haute saison'
       },
       {
-        name: 'Shoulder Season',
-        description: 'Spring and fall months with moderate demand',
+        name: 'Saison Intermédiaire',
+        description: 'Mois de printemps et d\'automne avec une demande modérée',
         impact: 'medium',
         trend: 'variable',
-        example: 'Good balance of price and availability'
+        example: 'Bon équilibre entre prix et disponibilité'
       },
       {
-        name: 'Off-Peak Season',
-        description: 'Winter months (except holidays) and low-demand periods',
+        name: 'Basse Saison',
+        description: 'Mois d\'hiver (sauf fêtes) et périodes de faible demande',
         impact: 'high',
         trend: 'down',
-        example: 'Best prices, often 30-50% lower'
+        example: 'Meilleurs prix, souvent 30-50% moins chers'
       }
     ]
   },
   {
-    title: 'Weather & Natural Events',
-    description: 'Weather conditions and natural events can significantly impact flight availability and pricing.',
+    title: 'Météo et Événements Naturels',
+    description: 'Les conditions météorologiques et les événements naturels peuvent considérablement impacter la disponibilité et les prix des vols.',
     icon: <WeatherIcon color="primary" sx={{ fontSize: 40 }} />,
     factors: [
       {
-        name: 'Severe Weather',
-        description: 'Storms, hurricanes, snowstorms affecting operations',
+        name: 'Météo Sévère',
+        description: 'Tempêtes, ouragans, blizzards affectant les opérations',
         impact: 'high',
         trend: 'up',
-        example: 'Prices spike due to cancellations and rebookings'
+        example: 'Les prix augmentent à cause des annulations et rébookings'
       },
       {
-        name: 'Seasonal Weather Patterns',
-        description: 'Monsoon seasons, hurricane seasons, winter conditions',
+        name: 'Modèles Météorologiques Saisonniers',
+        description: 'Saisons de mousson, saisons d\'ouragans, conditions hivernales',
         impact: 'medium',
         trend: 'variable',
-        example: 'Predictable price increases during affected periods'
+        example: 'Augmentations de prix prévisibles pendant les périodes affectées'
       },
       {
-        name: 'Natural Disasters',
-        description: 'Earthquakes, volcanic eruptions, wildfires',
+        name: 'Catastrophes Naturelles',
+        description: 'Tremblements de terre, éruptions volcaniques, feux de forêt',
         impact: 'high',
         trend: 'up',
-        example: 'Immediate price increases and route changes'
+        example: 'Augmentations de prix immédiates et changements d\'itinéraires'
       }
     ]
   },
   {
-    title: 'Demand & Supply',
-    description: 'The basic economic principle of supply and demand drives most price fluctuations.',
+    title: 'Offre et Demande',
+    description: 'Le principe économique de base de l\'offre et de la demande régit la plupart des fluctuations de prix.',
     icon: <DemandIcon color="primary" sx={{ fontSize: 40 }} />,
     factors: [
       {
-        name: 'Route Popularity',
-        description: 'High-demand routes vs. less popular destinations',
+        name: 'Popularité de la Route',
+        description: 'Routes à forte demande vs. destinations moins populaires',
         impact: 'high',
         trend: 'up',
-        example: 'Popular routes often have higher prices'
+        example: 'Les routes populaires ont souvent des prix plus élevés'
       },
       {
-        name: 'Flight Frequency',
-        description: 'Number of flights available on a route',
+        name: 'Fréquence des Vols',
+        description: 'Nombre de vols disponibles sur une route',
         impact: 'medium',
         trend: 'variable',
-        example: 'More flights usually mean better prices'
+        example: 'Plus de vols signifie généralement de meilleurs prix'
       },
       {
-        name: 'Competition',
-        description: 'Number of airlines operating on the same route',
+        name: 'Concurrence',
+        description: 'Nombre de compagnies aériennes sur la même route',
         impact: 'high',
         trend: 'down',
-        example: 'More competition typically lowers prices'
+        example: 'Plus de concurrence fait généralement baisser les prix'
       }
     ]
   },
   {
-    title: 'Operational Costs',
-    description: 'Airlines\' operational expenses directly influence ticket pricing.',
+    title: 'Coûts Opérationnels',
+    description: 'Les dépenses opérationnelles des compagnies aériennes influencent directement les prix des billets.',
     icon: <PriceIcon color="primary" sx={{ fontSize: 40 }} />,
     factors: [
       {
-        name: 'Fuel Prices',
-        description: 'Jet fuel costs, which can vary significantly',
+        name: 'Prix du Carburant',
+        description: 'Coûts du carburant aviation, qui peuvent varier considérablement',
         impact: 'high',
         trend: 'variable',
-        example: 'Fuel surcharges added during high oil prices'
+        example: 'Suppléments carburant ajoutés pendant les prix élevés du pétrole'
       },
       {
-        name: 'Airport Fees',
-        description: 'Landing fees, terminal charges, and taxes',
+        name: 'Frais d\'Aéroport',
+        description: 'Frais d\'atterrissage, charges terminales et taxes',
         impact: 'medium',
         trend: 'up',
-        example: 'Major airports often have higher fees'
+        example: 'Les grands aéroports ont souvent des frais plus élevés'
       },
       {
-        name: 'Labor Costs',
-        description: 'Pilot, crew, and ground staff salaries',
+        name: 'Coûts de Main-d\'œuvre',
+        description: 'Salaires des pilotes, équipage et personnel au sol',
         impact: 'medium',
         trend: 'up',
-        example: 'Costs passed on to passengers over time'
+        example: 'Coûts répercutés sur les passagers au fil du temps'
       }
     ]
   },
   {
-    title: 'Timing & Booking',
-    description: 'When you book and when you travel can make a huge difference in price.',
+    title: 'Timing et Réservation',
+    description: 'Quand vous réservez et quand vous voyagez peut faire une énorme différence de prix.',
     icon: <TimeIcon color="primary" sx={{ fontSize: 40 }} />,
     factors: [
       {
-        name: 'Advance Booking',
-        description: 'How far in advance you book your flight',
+        name: 'Réservation à l\'Avance',
+        description: 'Combien de temps à l\'avance vous réservez votre vol',
         impact: 'high',
         trend: 'down',
-        example: 'Booking 2-3 months ahead often saves money'
+        example: 'Réserver 2-3 mois à l\'avance fait souvent économiser de l\'argent'
       },
       {
-        name: 'Day of Week',
-        description: 'Certain days are typically cheaper to fly',
+        name: 'Jour de la Semaine',
+        description: 'Certains jours sont généralement moins chers pour voler',
         impact: 'medium',
         trend: 'variable',
-        example: 'Tuesday/Wednesday often cheaper than Friday/Sunday'
+        example: 'Mardi/Mercredi souvent moins cher que Vendredi/Dimanche'
       },
       {
-        name: 'Time of Day',
-        description: 'Early morning or late night flights',
+        name: 'Heure de la Journée',
+        description: 'Vols tôt le matin ou tard le soir',
         impact: 'medium',
         trend: 'down',
-        example: 'Red-eye flights usually cost less'
+        example: 'Les vols de nuit coûtent généralement moins cher'
       }
     ]
   },
   {
-    title: 'Route & Distance',
-    description: 'The specific route and distance can significantly impact pricing.',
+    title: 'Route et Distance',
+    description: 'La route spécifique et la distance peuvent considérablement impacter les prix.',
     icon: <RouteIcon color="primary" sx={{ fontSize: 40 }} />,
     factors: [
       {
-        name: 'Direct vs. Connecting',
-        description: 'Non-stop flights vs. flights with layovers',
+        name: 'Direct vs. Avec Escale',
+        description: 'Vols directs vs. vols avec escales',
         impact: 'high',
         trend: 'up',
-        example: 'Direct flights often cost more but save time'
+        example: 'Les vols directs coûtent souvent plus cher mais font gagner du temps'
       },
       {
-        name: 'Route Efficiency',
-        description: 'Popular business routes vs. leisure routes',
+        name: 'Efficacité de la Route',
+        description: 'Routes d\'affaires populaires vs. routes de loisir',
         impact: 'medium',
         trend: 'variable',
-        example: 'Business routes may have higher prices'
+        example: 'Les routes d\'affaires peuvent avoir des prix plus élevés'
       },
       {
-        name: 'Alternative Airports',
-        description: 'Main airports vs. smaller regional airports',
+        name: 'Aéroports Alternatifs',
+        description: 'Aéroports principaux vs. aéroports régionaux plus petits',
         impact: 'medium',
         trend: 'down',
-        example: 'Regional airports often offer better prices'
+        example: 'Les aéroports régionaux offrent souvent de meilleurs prix'
       }
     ]
   }
@@ -287,7 +287,7 @@ const OnboardingModal: React.FC<OnboardingModalProps> = ({ open, onClose }) => {
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
           <FlightIcon color="primary" />
           <Typography variant="h5" component="h2">
-            Understanding Flight Prices
+            Comprendre les Prix des Vols
           </Typography>
         </Box>
         <IconButton onClick={onClose} size="large">
@@ -301,10 +301,10 @@ const OnboardingModal: React.FC<OnboardingModalProps> = ({ open, onClose }) => {
           <Box sx={{ mb: 3 }}>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
               <Typography variant="body2" color="textSecondary">
-                Step {activeStep + 1} of {onboardingSteps.length}
+                Étape {activeStep + 1} sur {onboardingSteps.length}
               </Typography>
               <Typography variant="body2" color="textSecondary">
-                {Math.round(progress)}% Complete
+                {Math.round(progress)}% Terminé
               </Typography>
             </Box>
             <LinearProgress 
@@ -355,7 +355,7 @@ const OnboardingModal: React.FC<OnboardingModalProps> = ({ open, onClose }) => {
                       
                       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                         <Chip 
-                          label={`${factor.impact} impact`}
+                          label={`Impact ${factor.impact}`}
                           color={getImpactColor(factor.impact)}
                           size="small"
                         />
@@ -375,15 +375,15 @@ const OnboardingModal: React.FC<OnboardingModalProps> = ({ open, onClose }) => {
             <CardContent>
               <Typography variant="h6" gutterBottom sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                 <PremiumIcon color="primary" />
-                Pro Tips
+                Conseils Pro
               </Typography>
               <Typography variant="body2" color="textSecondary">
-                {activeStep === 0 && "Book during shoulder seasons for the best balance of price and weather."}
-                {activeStep === 1 && "Monitor weather forecasts and consider travel insurance for weather-sensitive trips."}
-                {activeStep === 2 && "Compare prices across multiple airlines and consider alternative airports."}
-                {activeStep === 3 && "Fuel surcharges are often included in the base fare, so compare total costs."}
-                {activeStep === 4 && "Set price alerts and be flexible with your travel dates for better deals."}
-                {activeStep === 5 && "Consider nearby airports and be open to connecting flights for savings."}
+                {activeStep === 0 && "Réservez pendant les saisons intermédiaires pour le meilleur équilibre entre prix et météo."}
+                {activeStep === 1 && "Surveillez les prévisions météo et considérez une assurance voyage pour les voyages sensibles à la météo."}
+                {activeStep === 2 && "Comparez les prix entre plusieurs compagnies aériennes et considérez des aéroports alternatifs."}
+                {activeStep === 3 && "Les suppléments carburant sont souvent inclus dans le tarif de base, alors comparez les coûts totaux."}
+                {activeStep === 4 && "Configurez des alertes de prix et soyez flexible avec vos dates de voyage pour de meilleures offres."}
+                {activeStep === 5 && "Considérez les aéroports à proximité et soyez ouvert aux vols avec escales pour des économies."}
               </Typography>
             </CardContent>
           </Card>
@@ -400,17 +400,17 @@ const OnboardingModal: React.FC<OnboardingModalProps> = ({ open, onClose }) => {
           onClick={handleBack}
           sx={{ mr: 1 }}
         >
-          Back
+          Précédent
         </Button>
         
         <Box sx={{ display: 'flex', gap: 1 }}>
           {activeStep === onboardingSteps.length - 1 ? (
             <Button onClick={onClose} variant="contained">
-              Got it!
+              J'ai compris !
             </Button>
           ) : (
             <Button onClick={handleNext} variant="contained">
-              Next
+              Suivant
             </Button>
           )}
         </Box>
