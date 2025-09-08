@@ -134,7 +134,7 @@ const RegisterPage: React.FC = () => {
               Inscription
             </Typography>
             <Typography variant="body1" color="text.secondary">
-              Créez votre compte Horizon
+              Créez votre compte GOAIR
             </Typography>
           </Box>
 

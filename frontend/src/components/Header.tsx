@@ -10,7 +10,7 @@ import {
   MenuItem,
   IconButton,
 } from '@mui/material';
-import { Flight, Person, Logout, AdminPanelSettings } from '@mui/icons-material';
+import { Flight, Person, Logout, AdminPanelSettings, Notifications } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 
 const Header: React.FC = () => {
@@ -43,8 +43,8 @@ const Header: React.FC = () => {
           onClick={() => navigate('/')}
         >
           <Flight sx={{ mr: 1, color: 'primary.main' }} />
-          <Typography variant="h6" component="div" sx={{ fontWeight: 700 }}>
-            Horizon
+          <Typography variant="h6" component="div" sx={{ fontWeight: 700, color: '#1e293b' }}>
+            GOAIR
           </Typography>
         </Box>
 
@@ -52,19 +52,17 @@ const Header: React.FC = () => {
 
         <Box display="flex" alignItems="center" gap={2}>
           <Button
-            color="inherit"
             onClick={() => navigate('/')}
-            sx={{ fontWeight: 500 }}
+            sx={{ fontWeight: 500, color: '#1e293b' }}
           >
             Rechercher
           </Button>
           
           <Button
-            color="inherit"
             variant="text"
             onClick={() => navigate('/admin/login')}
             startIcon={<AdminPanelSettings />}
-            sx={{ fontWeight: 500 }}
+            sx={{ fontWeight: 500, color: '#1e293b' }}
           >
             Admin
           </Button>
@@ -77,7 +75,7 @@ const Header: React.FC = () => {
                 aria-controls="menu-appbar"
                 aria-haspopup="true"
                 onClick={handleMenu}
-                color="inherit"
+                sx={{ color: '#1e293b' }}
               >
                 <Avatar sx={{ width: 32, height: 32, bgcolor: 'primary.main' }}>
                   <Person />
@@ -101,6 +99,10 @@ const Header: React.FC = () => {
                 <MenuItem onClick={() => { handleClose(); navigate('/profile'); }}>
                   Mon Profil
                 </MenuItem>
+                <MenuItem onClick={() => { handleClose(); navigate('/notifications'); }}>
+                  <Notifications sx={{ mr: 1 }} />
+                  Notifications
+                </MenuItem>
                 <MenuItem onClick={() => { handleClose(); navigate('/bookings'); }}>
                   Mes Réservations
                 </MenuItem>
@@ -113,10 +115,9 @@ const Header: React.FC = () => {
           ) : (
             <>
               <Button
-                color="inherit"
                 variant="outlined"
                 onClick={() => navigate('/login')}
-                sx={{ fontWeight: 500 }}
+                sx={{ fontWeight: 500, color: '#1e293b', borderColor: '#1e293b' }}
               >
                 Se connecter
               </Button>
