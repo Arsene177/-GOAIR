@@ -5,6 +5,12 @@ python-jose[cryptography]
 passlib[bcrypt]
 pydantic
 aiohttp   # optional: for external flight API calls
+httpx    # required by starlette.testclient
 python-dotenv
 alembic   # when you need migrations
 APScheduler
+firebase-admin>=6.2.0
+requests>=2.31.0  # for weather API calls
+amadeus   # Amadeus API client for flight data
+requests  # HTTP requests for weather API and notifications
+sqlalchemy # Database ORM (required by SQLModel)

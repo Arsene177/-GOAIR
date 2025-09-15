@@ -79,3 +79,17 @@ class NotificationOut(BaseModel):
     status: Optional[str]
     created_at: Optional[datetime]
     sent_at: Optional[datetime]
+
+# --- User Preferences ---
+class UserPreferenceIn(BaseModel):
+    timezone: Optional[str] = "UTC"
+    currency: Optional[str] = "USD"
+    default_home_airport: Optional[str] = None
+    preferred_notification_time_start: Optional[str] = None
+    preferred_notification_time_end: Optional[str] = None
+
+class UserPreferenceOut(UserPreferenceIn):
+    id: int
+    user_id: int
+    created_at: datetime
+    updated_at: datetime

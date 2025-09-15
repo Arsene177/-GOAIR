@@ -4,7 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 import os
 from dotenv import load_dotenv
 from database import create_db_and_tables
-from routes import auth as auth_routes, flights as flights_routes, alerts as alerts_routes, notifications as notifications_routes, weather as weather_routes
+from routes import auth as auth_routes, flights as flights_routes, alerts as alerts_routes, notifications as notifications_routes, weather as weather_routes, preferences as preferences_routes
 from deps import get_current_user
 from jobs import start_scheduler
 
@@ -31,10 +31,30 @@ def on_startup():
     if JOBS_ENABLED:
         start_scheduler()
 
-# include routers
-
-app.include_router(auth_routes.auth_router, prefix="/api/auth", tags=["auth"])
-app.include_router(flights_routes.flights_router, prefix="/api", tags=["flights"])
-app.include_router(alerts_routes.alerts_router, prefix="/api/alerts", tags=["alerts"])
-app.include_router(notifications_routes.notifications_router, prefix="/api/notifications", tags=["notifications"])
-app.include_router(weather_routes.weather_router, prefix="/api/weather", tags=["weather"])
+# Configure routers with root_path_in_servers=False to prevent redirect issues
+app.include_router(
+    auth_routes.auth_router,
+    prefix="/api/auth",
+    tags=["auth"],
+)
+app.include_router(
+    flights_routes.flights_router,
+    prefix="/api",
+    tags=["flights"],
+)
+app.include_router(
+    alerts_routes.alerts_router,
+    prefix="/api/alerts",
+    tags=["alerts"],
+)
+app.include_router(
+    notifications_routes.notifications_router,
+    prefix="/api/notifications",
+    tags=["notifications"],
+)
+app.include_router(
+    weather_routes.weather_router,
+    prefix="/api/weather",
+    tags=["weather"],
+)
+app.include_router(preferences_routes.preferences_router, prefix="/api/preferences", tags=["preferences"])
