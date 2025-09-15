@@ -3,7 +3,7 @@ export const weatherService = {
   // GET /api/weather?city=CityName
   getWeather: async (city: string) => {
     try {
-      const response = await api.get(`/weather`, { params: { city } });
+      const response = await api.get(`/weather/${city}`);
       return response.data;
     } catch (error) {
       console.error('Erreur lors de la récupération des données météo:', error);
@@ -186,6 +186,101 @@ export const authService = {
       return mapBackendUser(response.data);
     } catch (error) {
       console.error("Erreur lors de la récupération des informations utilisateur:", error);
+      throw error;
+    }
+  }
+};
+
+// Service pour les alertes de prix
+export const alertService = {
+  // GET /api/alerts - Récupérer toutes les alertes de l'utilisateur
+  getAlerts: async (): Promise<any[]> => {
+    try {
+      const response = await api.get('/alerts');
+      return response.data;
+    } catch (error) {
+      console.error('Erreur lors de la récupération des alertes:', error);
+      throw error;
+    }
+  },
+
+  // POST /api/alerts - Créer une nouvelle alerte
+  createAlert: async (alertData: any): Promise<any> => {
+    try {
+      const response = await api.post('/alerts', alertData);
+      return response.data;
+    } catch (error) {
+      console.error('Erreur lors de la création de l\'alerte:', error);
+      throw error;
+    }
+  },
+
+  // PUT /api/alerts/:id - Modifier une alerte
+  updateAlert: async (alertId: number, alertData: any): Promise<any> => {
+    try {
+      const response = await api.put(`/alerts/${alertId}`, alertData);
+      return response.data;
+    } catch (error) {
+      console.error('Erreur lors de la modification de l\'alerte:', error);
+      throw error;
+    }
+  },
+
+  // DELETE /api/alerts/:id - Supprimer une alerte
+  deleteAlert: async (alertId: number): Promise<void> => {
+    try {
+      await api.delete(`/alerts/${alertId}`);
+    } catch (error) {
+      console.error('Erreur lors de la suppression de l\'alerte:', error);
+      throw error;
+    }
+  }
+};
+
+// Service pour les notifications
+export const notificationService = {
+  // GET /api/notifications - Récupérer les notifications de l'utilisateur
+  getNotifications: async (): Promise<any[]> => {
+    try {
+      const response = await api.get('/notifications');
+      return response.data;
+    } catch (error) {
+      console.error('Erreur lors de la récupération des notifications:', error);
+      throw error;
+    }
+  }
+};
+
+// Service pour les préférences utilisateur
+export const preferencesService = {
+  // GET /api/preferences - Récupérer les préférences de l'utilisateur
+  getPreferences: async (): Promise<any> => {
+    try {
+      const response = await api.get('/preferences');
+      return response.data;
+    } catch (error) {
+      console.error('Erreur lors de la récupération des préférences:', error);
+      throw error;
+    }
+  },
+
+  // PUT /api/preferences - Mettre à jour les préférences de l'utilisateur
+  updatePreferences: async (preferences: any): Promise<any> => {
+    try {
+      const response = await api.put('/preferences', preferences);
+      return response.data;
+    } catch (error) {
+      console.error('Erreur lors de la mise à jour des préférences:', error);
+      throw error;
+    }
+  },
+
+  // DELETE /api/preferences - Supprimer les préférences (reset aux valeurs par défaut)
+  resetPreferences: async (): Promise<void> => {
+    try {
+      await api.delete('/preferences');
+    } catch (error) {
+      console.error('Erreur lors de la réinitialisation des préférences:', error);
       throw error;
     }
   }

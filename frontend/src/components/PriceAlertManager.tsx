@@ -37,6 +37,7 @@ import {
   LocationOn as LocationOnIcon
 } from '@mui/icons-material';
 import { PriceAlert, NotificationPreferences } from '../types';
+import { alertService } from '../services/api';
 
 interface PriceAlertManagerProps {
   userId: string;
@@ -78,45 +79,29 @@ const PriceAlertManager: React.FC<PriceAlertManagerProps> = ({
   const loadAlerts = async () => {
     try {
       setLoading(true);
-      // Mock data - replace with actual API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      const backendAlerts = await alertService.getAlerts();
       
-      const mockAlerts: PriceAlert[] = [
-        {
-          id: '1',
-          userId,
-          route: 'CDG → JFK',
-          departureDate: '2024-02-15',
-          targetPrice: 450,
-          currentPrice: 520,
-          isActive: true,
-          createdAt: '2024-01-15T10:00:00Z',
-          notificationPreferences: {
-            email: { enabled: true, address: 'user@example.com', frequency: 'immediate', types: ['price_alerts'] },
-            push: { enabled: true, frequency: 'immediate', types: ['price_alerts'] },
-            sms: { enabled: false, number: '', frequency: 'immediate', types: [] }
-          }
-        },
-        {
-          id: '2',
-          userId,
-          route: 'ORY → LHR',
-          departureDate: '2024-03-20',
-          targetPrice: 200,
-          currentPrice: 180,
-          isActive: true,
-          createdAt: '2024-01-10T14:30:00Z',
-          triggeredAt: '2024-01-20T09:15:00Z',
-          notificationPreferences: {
-            email: { enabled: true, address: 'user@example.com', frequency: 'daily', types: ['price_alerts'] },
-            push: { enabled: false, frequency: 'immediate', types: [] },
-            sms: { enabled: false, number: '', frequency: 'immediate', types: [] }
-          }
+      // Map backend alerts to frontend format
+      const mappedAlerts: PriceAlert[] = backendAlerts.map((alert: any) => ({
+        id: String(alert.id),
+        userId: String(alert.user_id),
+        route: `${alert.departure} → ${alert.arrival}`,
+        departureDate: alert.departure_date ? new Date(alert.departure_date).toISOString().split('T')[0] : '',
+        targetPrice: alert.max_price || 0,
+        currentPrice: 0, // This would come from current flight data
+        isActive: alert.active,
+        createdAt: alert.created_at,
+        triggeredAt: alert.last_notified_at,
+        notificationPreferences: {
+          email: { enabled: true, address: 'user@example.com', frequency: 'immediate', types: ['price_alerts'] },
+          push: { enabled: false, frequency: 'immediate', types: ['price_alerts'] },
+          sms: { enabled: false, number: '', frequency: 'immediate', types: [] }
         }
-      ];
+      }));
       
-      setAlerts(mockAlerts);
+      setAlerts(mappedAlerts);
     } catch (err) {
+      console.error('Error loading alerts:', err);
       setError('Erreur lors du chargement des alertes');
     } finally {
       setLoading(false);
@@ -160,44 +145,65 @@ const PriceAlertManager: React.FC<PriceAlertManagerProps> = ({
     try {
       setError(null);
       
+      // Parse route to extract departure and arrival airports
+      const routeParts = formData.route.split(' → ');
+      const departure = routeParts[0]?.trim();
+      const arrival = routeParts[1]?.trim();
+      
+      if (!departure || !arrival) {
+        setError('Format de route invalide. Utilisez: Aéroport de départ → Aéroport d\'arrivée');
+        return;
+      }
+
       const alertData = {
-        userId,
-        route: formData.route,
-        departureDate: formData.departureDate,
-        targetPrice: parseFloat(formData.targetPrice),
-        currentPrice: 0, // Will be set by backend
-        isActive: formData.isActive,
-        notificationPreferences: formData.notificationPreferences
+        name: `${departure} → ${arrival}`,
+        departure,
+        arrival,
+        departure_date: formData.departureDate ? new Date(formData.departureDate).toISOString() : null,
+        max_price: parseFloat(formData.targetPrice),
+        currency: 'USD',
+        check_frequency_minutes: 60,
+        notify_channel: formData.notificationPreferences.email.enabled ? 'email' : 'push',
+        active: formData.isActive
       };
 
       if (editingAlert) {
-        const updatedAlert = { ...editingAlert, ...alertData };
-        if (onUpdateAlert) {
-          await onUpdateAlert(updatedAlert);
-        }
-        setAlerts(prev => prev.map(alert => alert.id === editingAlert.id ? updatedAlert : alert));
+        const updatedAlert = await alertService.updateAlert(parseInt(editingAlert.id), alertData);
+        setAlerts(prev => prev.map(alert => alert.id === editingAlert.id ? {
+          ...alert,
+          route: `${updatedAlert.departure} → ${updatedAlert.arrival}`,
+          targetPrice: updatedAlert.max_price,
+          isActive: updatedAlert.active
+        } : alert));
       } else {
-        if (onSaveAlert) {
-          await onSaveAlert(alertData);
-        }
-        // Add to local state with temporary ID
-        const newAlert = { ...alertData, id: `temp-${Date.now()}`, createdAt: new Date().toISOString() };
-        setAlerts(prev => [...prev, newAlert]);
+        const newAlert = await alertService.createAlert(alertData);
+        const mappedAlert: PriceAlert = {
+          id: String(newAlert.id),
+          userId,
+          route: `${newAlert.departure} → ${newAlert.arrival}`,
+          departureDate: newAlert.departure_date ? new Date(newAlert.departure_date).toISOString().split('T')[0] : '',
+          targetPrice: newAlert.max_price,
+          currentPrice: 0,
+          isActive: newAlert.active,
+          createdAt: newAlert.created_at,
+          notificationPreferences: formData.notificationPreferences
+        };
+        setAlerts(prev => [...prev, mappedAlert]);
       }
       
       handleCloseDialog();
     } catch (err) {
+      console.error('Error saving alert:', err);
       setError('Erreur lors de la sauvegarde de l\'alerte');
     }
   };
 
   const handleDelete = async (alertId: string) => {
     try {
-      if (onDeleteAlert) {
-        await onDeleteAlert(alertId);
-      }
+      await alertService.deleteAlert(parseInt(alertId));
       setAlerts(prev => prev.filter(alert => alert.id !== alertId));
     } catch (err) {
+      console.error('Error deleting alert:', err);
       setError('Erreur lors de la suppression de l\'alerte');
     }
   };

@@ -21,6 +21,7 @@ import EmailNotificationPreferences from '../components/EmailNotificationPrefere
 import PushNotificationPreferences from '../components/PushNotificationPreferences';
 import PriceAlertManager from '../components/PriceAlertManager';
 import { NotificationPreferences } from '../types';
+import { notificationService, authService, preferencesService } from '../services/api';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -70,31 +71,39 @@ const NotificationPreferencesPage: React.FC = () => {
       types: []
     }
   });
-  const [currentUserId] = useState('user-123'); // Mock user ID
+  const [currentUserId, setCurrentUserId] = useState<string>('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
 
   useEffect(() => {
-    loadPreferences();
+    loadUserAndPreferences();
   }, []);
 
-  const loadPreferences = async () => {
+  const loadUserAndPreferences = async () => {
     try {
       setLoading(true);
-      // Mock loading - replace with actual API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
       
-      // Mock data - replace with actual API response
-      const mockPreferences: NotificationPreferences = {
+      // Get current user
+      const user = await authService.getCurrentUser();
+      setCurrentUserId(user.id);
+      
+      // Load notifications from backend
+      const notifications = await notificationService.getNotifications();
+      
+      // Map backend notifications to preferences format
+      const emailNotifications = notifications.filter((n: any) => n.channel === 'email');
+      const pushNotifications = notifications.filter((n: any) => n.channel === 'push');
+      
+      const mappedPreferences: NotificationPreferences = {
         email: {
-          enabled: true,
-          address: 'user@example.com',
-          frequency: 'daily',
-          types: ['price_alerts', 'price_predictions']
+          enabled: emailNotifications.length > 0,
+          address: user.email,
+          frequency: 'immediate',
+          types: ['price_alerts']
         },
         push: {
-          enabled: false,
+          enabled: pushNotifications.length > 0,
           frequency: 'immediate',
           types: ['price_alerts']
         },
@@ -106,8 +115,9 @@ const NotificationPreferencesPage: React.FC = () => {
         }
       };
       
-      setPreferences(mockPreferences);
+      setPreferences(mappedPreferences);
     } catch (err) {
+      console.error('Error loading preferences:', err);
       setError('Erreur lors du chargement des préférences');
     } finally {
       setLoading(false);
@@ -117,13 +127,21 @@ const NotificationPreferencesPage: React.FC = () => {
   const handleSavePreferences = async (newPreferences: NotificationPreferences) => {
     try {
       setError(null);
-      // Mock save - replace with actual API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      // Save preferences to backend
+      await preferencesService.updatePreferences({
+        timezone: "UTC",
+        currency: "USD",
+        default_home_airport: null,
+        preferred_notification_time_start: newPreferences.email.frequency,
+        preferred_notification_time_end: newPreferences.push.frequency
+      });
       
       setPreferences(newPreferences);
       setSuccess(true);
       setTimeout(() => setSuccess(false), 3000);
     } catch (err) {
+      console.error('Error saving preferences:', err);
       setError('Erreur lors de la sauvegarde des préférences');
       throw err;
     }
@@ -239,21 +257,23 @@ const NotificationPreferencesPage: React.FC = () => {
         </TabPanel>
 
         <TabPanel value={tabValue} index={2}>
-          <PriceAlertManager
-            userId={currentUserId}
-            onSaveAlert={async (alert) => {
-              console.log('Saving alert:', alert);
-              // Mock save - replace with actual API call
-            }}
-            onUpdateAlert={async (alert) => {
-              console.log('Updating alert:', alert);
-              // Mock update - replace with actual API call
-            }}
-            onDeleteAlert={async (alertId) => {
-              console.log('Deleting alert:', alertId);
-              // Mock delete - replace with actual API call
-            }}
-          />
+          {currentUserId && (
+            <PriceAlertManager
+              userId={currentUserId}
+              onSaveAlert={async (alert) => {
+                console.log('Saving alert:', alert);
+                // Alert saving is now handled by the PriceAlertManager component itself
+              }}
+              onUpdateAlert={async (alert) => {
+                console.log('Updating alert:', alert);
+                // Alert updating is now handled by the PriceAlertManager component itself
+              }}
+              onDeleteAlert={async (alertId) => {
+                console.log('Deleting alert:', alertId);
+                // Alert deletion is now handled by the PriceAlertManager component itself
+              }}
+            />
+          )}
         </TabPanel>
       </Paper>
 
