@@ -92,11 +92,11 @@ const PriceAlertManager: React.FC<PriceAlertManagerProps> = ({
         isActive: alert.active,
         createdAt: alert.created_at,
         triggeredAt: alert.last_notified_at,
-        notificationPreferences: {
-          email: { enabled: true, address: 'user@example.com', frequency: 'immediate', types: ['price_alerts'] },
+          notificationPreferences: {
+            email: { enabled: true, address: 'user@example.com', frequency: 'immediate', types: ['price_alerts'] },
           push: { enabled: false, frequency: 'immediate', types: ['price_alerts'] },
-          sms: { enabled: false, number: '', frequency: 'immediate', types: [] }
-        }
+            sms: { enabled: false, number: '', frequency: 'immediate', types: [] }
+          }
       }));
       
       setAlerts(mappedAlerts);
@@ -154,7 +154,7 @@ const PriceAlertManager: React.FC<PriceAlertManagerProps> = ({
         setError('Format de route invalide. Utilisez: Aéroport de départ → Aéroport d\'arrivée');
         return;
       }
-
+      
       const alertData = {
         name: `${departure} → ${arrival}`,
         departure,

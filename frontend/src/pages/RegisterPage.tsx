@@ -14,8 +14,10 @@ import {
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import { authService } from '../services/api';
 import { ERROR_MESSAGES, SUCCESS_MESSAGES } from '../constants';
+import { useQuickNotifications } from '../components/NotificationSystem';
 
 const RegisterPage: React.FC = () => {
+  const { showSuccess, showError } = useQuickNotifications();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     firstName: '',
@@ -87,6 +89,7 @@ const RegisterPage: React.FC = () => {
       localStorage.setItem('user', JSON.stringify(response.user));
       
       setSuccess(SUCCESS_MESSAGES.REGISTER_SUCCESS);
+      showSuccess('Inscription réussie !', 'Votre compte a été créé avec succès.');
       
       // Rediriger vers la page d'accueil après un court délai
       setTimeout(() => {
@@ -99,10 +102,14 @@ const RegisterPage: React.FC = () => {
       // Gérer les différents types d'erreurs
       if (err.response?.status === 409) {
         setError(ERROR_MESSAGES.EMAIL_ALREADY_EXISTS);
+        showError('Erreur', 'Cet email est déjà utilisé');
       } else if (err.response?.status === 400) {
-        setError(err.response.data?.message || 'Données invalides');
+        const errorMessage = err.response.data?.message || 'Données invalides';
+        setError(errorMessage);
+        showError('Erreur', errorMessage);
       } else {
         setError(ERROR_MESSAGES.NETWORK_ERROR);
+        showError('Erreur', ERROR_MESSAGES.NETWORK_ERROR);
       }
     } finally {
       setLoading(false);

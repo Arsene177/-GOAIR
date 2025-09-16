@@ -4,7 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 import os
 from dotenv import load_dotenv
 from database import create_db_and_tables
-from routes import auth as auth_routes, flights as flights_routes, alerts as alerts_routes, notifications as notifications_routes, weather as weather_routes, preferences as preferences_routes
+from routes import auth as auth_routes, flights as flights_routes, alerts as alerts_routes, notifications as notifications_routes, weather as weather_routes, preferences as preferences_routes, devices as devices_routes
 from deps import get_current_user
 from jobs import start_scheduler
 
@@ -58,3 +58,9 @@ app.include_router(
     tags=["weather"],
 )
 app.include_router(preferences_routes.preferences_router, prefix="/api/preferences", tags=["preferences"])
+
+app.include_router(
+    devices_routes.device_router,
+    prefix="/api/notifications",
+    tags=["notifications"]
+)

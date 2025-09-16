@@ -32,29 +32,29 @@ class NotificationService:
     def __init__(self):
             # Read environment variables but do NOT raise here — allow app to import
             # even if notifications are not configured. Failures will happen at send time.
-            self.email_sender: str = os.getenv("EMAIL_SENDER", "")
-            if not self.email_sender:
+        self.email_sender: str = os.getenv("EMAIL_SENDER", "")
+        if not self.email_sender:
                 logger.warning("EMAIL_SENDER not set; email sending disabled until configured")
-
-            self.email_password: str = os.getenv("EMAIL_PASSWORD", "")
-            if not self.email_password:
+            
+        self.email_password: str = os.getenv("EMAIL_PASSWORD", "")
+        if not self.email_password:
                 logger.warning("EMAIL_PASSWORD not set; email sending disabled until configured")
-
-            self.smtp_server: str = os.getenv("SMTP_SERVER", "smtp.gmail.com")
-            self.smtp_port: int = int(os.getenv("SMTP_PORT", "587"))
-            self.push_notification_key: str = os.getenv("PUSH_NOTIFICATION_KEY", "")
+            
+        self.smtp_server: str = os.getenv("SMTP_SERVER", "smtp.gmail.com")
+        self.smtp_port: int = int(os.getenv("SMTP_PORT", "587"))
+        self.push_notification_key: str = os.getenv("PUSH_NOTIFICATION_KEY", "")
             if not self.push_notification_key:
                 logger.warning("PUSH_NOTIFICATION_KEY not set; push notifications disabled until configured")
-
-            # Rate limiting settings
-            self.email_rate_limit = int(os.getenv("EMAIL_RATE_LIMIT", "100"))  # emails per hour
-            self.push_rate_limit = int(os.getenv("PUSH_RATE_LIMIT", "1000"))  # notifications per hour
-            self.rate_limit_window = 3600  # 1 hour in seconds
         
-            # Tracking for rate limiting
-            self.email_count = 0
-            self.push_count = 0
-            self.last_reset = datetime.utcnow()
+        # Rate limiting settings
+        self.email_rate_limit = int(os.getenv("EMAIL_RATE_LIMIT", "100"))  # emails per hour
+        self.push_rate_limit = int(os.getenv("PUSH_RATE_LIMIT", "1000"))  # notifications per hour
+        self.rate_limit_window = 3600  # 1 hour in seconds
+        
+        # Tracking for rate limiting
+        self.email_count = 0
+        self.push_count = 0
+        self.last_reset = datetime.utcnow()
     
     def _check_rate_limits(self) -> None:
         """Check and reset rate limits if needed"""
@@ -130,10 +130,10 @@ class NotificationService:
 
             # Send message
             response = messaging.send(push_message)
-            self.push_count += 1
+                self.push_count += 1
             logger.info(f"Successfully sent push notification: {response}")
-            return True
-
+                return True
+                
         except NotificationError as ne:
             logger.error(f"Notification error: {str(ne)}")
             raise

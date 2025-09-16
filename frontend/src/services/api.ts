@@ -146,12 +146,7 @@ export const authService = {
   // POST /api/auth/register - Inscription utilisateur
   register: async (userData: RegisterRequest): Promise<AuthResponse> => {
     try {
-      const regRes = await api.post('/auth/register', {
-        email: userData.email,
-        password: userData.password,
-        first_name: userData.firstName,
-        last_name: userData.lastName,
-      });
+      const regRes = await api.post('/auth/register', userData);
       const tokenData = regRes.data as { access_token: string; expires_in: number };
       localStorage.setItem('accessToken', tokenData.access_token);
       const meRes = await api.get('/auth/me');

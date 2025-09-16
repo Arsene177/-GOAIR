@@ -7,8 +7,8 @@ from datetime import datetime
 class RegisterIn(BaseModel):
     email: str
     password: str
-    first_name: Optional[str] = None
-    last_name: Optional[str] = None
+    firstName: Optional[str] = None
+    lastName: Optional[str] = None
 
 class LoginIn(BaseModel):
     email: str

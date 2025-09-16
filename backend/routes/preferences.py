@@ -71,3 +71,4 @@ def delete_user_preferences(current_user: User = Depends(get_current_user), sess
         session.commit()
     
     return {"message": "Preferences reset to defaults"}
+
